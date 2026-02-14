@@ -13,46 +13,12 @@ function App() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // FINAL AUDIO INITIALIZATION
-    console.log('🎵 Initializing FINAL audio system...');
-    
-    // Create DOM audio element for maximum compatibility
-    const audio = document.createElement('audio');
-    
-    // Setup audio with comprehensive configuration
-    audio.src = '/valentines-day-gift/music.mp3';
-    audio.volume = 0.5;
-    audio.preload = 'auto';
-    audio.loop = false;
-    audio.crossOrigin = 'anonymous';
-    
-    // Comprehensive event listeners
-    audio.addEventListener('load', () => console.log('✅ Audio loaded'));
-    audio.addEventListener('canplay', () => console.log('✅ Audio can play'));
-    audio.addEventListener('error', (e) => console.error('❌ Audio error', e));
-    audio.addEventListener('stalled', () => console.log('⏸️ Audio stalled'));
-    audio.addEventListener('suspend', () => console.log('⏸️ Audio suspended'));
-    audio.addEventListener('abort', () => console.log('❌ Audio aborted'));
-    
-    // Hide audio element
-    audio.style.position = 'absolute';
-    audio.style.left = '-9999px';
-    audio.style.opacity = '0';
-    
-    // Add to DOM for reliability
-    document.body.appendChild(audio);
-    
-    // Set ref
-    audioRef.current = audio;
-    
+    // Audio will be initialized via JSX element
     const timer = setTimeout(() => {
       setCurrentPage('valentine');
     }, 5000);
     return () => {
       clearTimeout(timer);
-      if (document.body.contains(audio)) {
-        document.body.removeChild(audio);
-      }
     };
   }, []);
 
@@ -74,6 +40,27 @@ function App() {
 
   return (
     <div className="app">
+      {/* Proper audio element with correct MIME type */}
+      <audio
+        ref={audioRef}
+        src="/valentines-day-gift/music.mp3"
+        preload="auto"
+        crossOrigin="anonymous"
+        style={{ position: 'absolute', left: '-9999px', opacity: 0 }}
+        onLoadedData={() => {
+          if (audioRef.current) {
+            audioRef.current.volume = 0.5;
+            console.log('✅ Audio loaded and ready');
+          }
+        }}
+        onError={(e) => {
+          console.error('❌ Audio error:', e);
+        }}
+        onCanPlay={() => {
+          console.log('✅ Audio can play');
+        }}
+      />
+      
       <div className="gradient-background">
         <Canvas
           camera={{ position: [0, 0, 3.5], fov: 45 }}
