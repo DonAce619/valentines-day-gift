@@ -13,28 +13,7 @@ function App() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Create audio element with absolute path
-    const audio = new Audio();
-    audio.src = '/valentines-day-gift/music.mp3';
-    audio.volume = 0.5;
-    audio.preload = 'auto';
-    audio.loop = false;
-    
-    // Add comprehensive event listeners
-    audio.addEventListener('load', () => {
-      console.log('✅ Audio loaded successfully');
-    });
-    
-    audio.addEventListener('error', (e) => {
-      console.error('❌ Audio error:', e);
-    });
-    
-    audio.addEventListener('canplay', () => {
-      console.log('✅ Audio can play');
-    });
-    
-    audioRef.current = audio;
-    
+    // Audio will be created via DOM element
     const timer = setTimeout(() => {
       setCurrentPage('valentine');
     }, 5000);
@@ -59,6 +38,23 @@ function App() {
 
   return (
     <div className="app">
+      {/* Direct DOM audio element - more reliable than Audio() constructor */}
+      <audio
+        ref={audioRef}
+        src="/valentines-day-gift/music.mp3"
+        preload="auto"
+        style={{ position: 'absolute', left: '-9999px', opacity: 0 }}
+        onLoadedData={() => {
+          if (audioRef.current) {
+            audioRef.current.volume = 0.5;
+            console.log('✅ Audio loaded and ready');
+          }
+        }}
+        onError={(e) => {
+          console.error('❌ Audio load error:', e);
+        }}
+      />
+      
       <div className="gradient-background">
         <Canvas
           camera={{ position: [0, 0, 3.5], fov: 45 }}

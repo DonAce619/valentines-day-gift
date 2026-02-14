@@ -47,33 +47,30 @@ export default function RosePage({ onShowMessage, audioRef }: RosePageProps) {
     
     const audio = audioRef.current;
     if (audio) {
-      // Reset and play immediately
+      // Reset audio
       audio.currentTime = 0;
       
-      // Direct play attempt
-      const playPromise = audio.play();
+      // Aggressive retry mechanism
+      const attemptPlay = (attempt: number) => {
+        console.log(`🎵 Attempt ${attempt} to play audio`);
+        
+        audio.play().then(() => {
+          console.log('✅ Audio playing successfully!');
+        }).catch((err) => {
+          console.error(`❌ Attempt ${attempt} failed:`, err);
+          
+          if (attempt < 5) {
+            // Try different delays
+            const delays = [100, 300, 500, 1000, 2000];
+            setTimeout(() => attemptPlay(attempt + 1), delays[attempt - 1]);
+          } else {
+            console.error('❌ All attempts failed - audio not playing');
+          }
+        });
+      };
       
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            console.log('✅ Audio playing successfully!');
-          })
-          .catch((err) => {
-            console.error('❌ Audio play failed:', err);
-            console.log('Audio details:', {
-              src: audio.src,
-              readyState: audio.readyState,
-              paused: audio.paused,
-              volume: audio.volume
-            });
-            
-            // Simple retry after short delay
-            setTimeout(() => {
-              console.log('🔄 Retrying audio play...');
-              audio.play().catch(e => console.log('❌ Retry failed:', e));
-            }, 200);
-          });
-      }
+      // Start attempts
+      attemptPlay(1);
     } else {
       console.error('❌ Audio ref is null!');
     }

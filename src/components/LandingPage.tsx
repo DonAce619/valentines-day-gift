@@ -27,19 +27,33 @@ export default function LandingPage({ onEnter, audioRef }: LandingPageProps) {
   }, []);
 
   const unlockAndEnter = () => {
-    // Simple audio unlock - just play and pause
+    // Multiple audio unlock methods
     const audio = audioRef.current;
     if (audio) {
       console.log('🔓 Unlocking audio on landing page');
       
-      // Force audio context unlock
-      const playPromise = audio.play();
-      playPromise.then(() => {
-        console.log('✅ Audio unlocked!');
+      // Method 1: Direct play/pause
+      audio.play().then(() => {
+        console.log('✅ Method 1: Audio unlocked!');
         audio.pause();
         audio.currentTime = 0;
-      }).catch((err) => {
-        console.error('❌ Audio unlock failed:', err);
+      }).catch(() => {
+        // Method 2: Create AudioContext
+        try {
+          const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+          if (audioContext.state === 'suspended') {
+            audioContext.resume().then(() => {
+              console.log('✅ Method 2: AudioContext resumed');
+              // Try playing again
+              audio.play().then(() => {
+                audio.pause();
+                audio.currentTime = 0;
+              }).catch(() => console.log('Method 2 retry failed'));
+            });
+          }
+        } catch (e) {
+          console.error('AudioContext creation failed:', e);
+        }
       });
     }
     onEnter();
