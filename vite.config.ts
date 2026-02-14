@@ -7,6 +7,11 @@ export default defineConfig({
   base: '/valentines-day-gift/',
   build: {
     outDir: 'dist',
-    assetsDir: 'assets'
+    assetsDir: 'assets',
+    rollupOptions: {
+      output: {
+        assetFileNames: 'assets/[name].[hash].[ext]'
+      }
+    }
   }
 })

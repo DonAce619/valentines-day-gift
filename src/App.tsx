@@ -13,14 +13,14 @@ function App() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // ULTIMATE AUDIO INITIALIZATION
-    console.log('🎵 Initializing ultimate audio system...');
+    // FINAL AUDIO INITIALIZATION
+    console.log('🎵 Initializing FINAL audio system...');
     
     // Create DOM audio element for maximum compatibility
     const audio = document.createElement('audio');
     
     // Setup audio with comprehensive configuration
-    audio.src = '/valentines-day-gift/dist/music.mp3';
+    audio.src = '/valentines-day-gift/music.mp3';
     audio.volume = 0.5;
     audio.preload = 'auto';
     audio.loop = false;
