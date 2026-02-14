@@ -1,35 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Valentine's Day Gift</title>
-    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
-    <script type="module" crossorigin src="./assets/index-CdBAjeau.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-CE_UEP1U.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script type="module" crossorigin src="/assets/index-CdBAjeau.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CE_UEP1U.css">
   </head>
   <body>
     <div id="root"></div>
-    <script>
-      // Fallback if React doesn't load
-      window.addEventListener('load', function() {
-        setTimeout(function() {
-          const root = document.getElementById('root');
-          if (root && root.innerHTML === '') {
-            root.innerHTML = `
-              <div style="color: white; text-align: center; font-family: Arial; padding: 50px;">
-                <h1>💕 Valentine's Day Gift 💕</h1>
-                <p>Your romantic website is loading...</p>
-                <p>If this message persists, please check the browser console (F12)</p>
-                <p style="margin-top: 20px;">
-                  <a href="./assets/index-CdBAjeau.js" style="color: #ff69b4; text-decoration: none;">🔧 Debug Info</a> | 
-                  <a href="./assets/index-CE_UEP1U.css" style="color: #ff69b4; text-decoration: none;">🎨 CSS File</a>
-                </p>
-              </div>
-            `;
-          }
-        }, 3000);
-      });
-    </script>
   </body>
 </html>
