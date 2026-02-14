@@ -13,8 +13,8 @@ function App() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Create audio element properly
-    const audio = new Audio('/music.mp3');
+    // Create audio element properly with correct path for GitHub Pages
+    const audio = new Audio('/valentines-day-gift/music.mp3');
     audio.volume = 0.5;
     audio.preload = 'auto';
     audioRef.current = audio;
