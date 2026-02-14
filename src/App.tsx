@@ -20,7 +20,7 @@ function App() {
     const audio = document.createElement('audio');
     
     // Setup audio with comprehensive configuration
-    audio.src = '/valentines-day-gift/music.mp3';
+    audio.src = '/valentines-day-gift/dist/music.mp3';
     audio.volume = 0.5;
     audio.preload = 'auto';
     audio.loop = false;

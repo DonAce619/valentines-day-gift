@@ -89,7 +89,7 @@ export default function RosePage({ onShowMessage, audioRef }: RosePageProps) {
               // STRATEGY 4: Create new audio element
               try {
                 console.log('🎵 Strategy 4: New audio element');
-                const newAudio = new Audio('/valentines-day-gift/music.mp3');
+                const newAudio = new Audio('/valentines-day-gift/dist/music.mp3');
                 newAudio.volume = 0.5;
                 await newAudio.play();
                 console.log('✅ SUCCESS! New audio playing!');
