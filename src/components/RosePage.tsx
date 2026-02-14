@@ -3,7 +3,7 @@ import './RosePage.css';
 
 interface RosePageProps {
   onShowMessage: () => void;
-  audioRef: RefObject<HTMLAudioElement | null>;
+  audioRef: RefObject<HTMLAudioElement>;
 }
 
 export default function RosePage({ onShowMessage, audioRef }: RosePageProps) {
@@ -42,22 +42,49 @@ export default function RosePage({ onShowMessage, audioRef }: RosePageProps) {
   }, []);
 
   const handleRoseClick = useCallback(() => {
+    console.log('Rose clicked - attempting to play audio');
+    
     // Play audio immediately
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      const playPromise = audioRef.current.play();
+    const audio = audioRef.current;
+    if (audio) {
+      console.log('Audio ref found:', audio);
+      audio.currentTime = 0;
+      
+      const playPromise = audio.play();
+      console.log('Play promise:', playPromise);
       
       if (playPromise !== undefined) {
         playPromise
-          .then(() => console.log('Audio playing!'))
+          .then(() => {
+            console.log('✅ Audio playing successfully!');
+          })
           .catch(err => {
-            console.error('Audio play failed:', err);
-            // One retry after 50ms
+            console.error('❌ Audio play failed:', err);
+            console.log('Audio state:', {
+              paused: audio.paused,
+              currentTime: audio.currentTime,
+              readyState: audio.readyState,
+              src: audio.src
+            });
+            // Multiple retry attempts with different delays
             setTimeout(() => {
-              audioRef.current?.play().catch(() => {});
-            }, 50);
+              console.log('Retry 1 after 100ms');
+              audio?.play().catch(e => console.log('Retry 1 failed:', e));
+            }, 100);
+            
+            setTimeout(() => {
+              console.log('Retry 2 after 300ms');
+              audio?.play().catch(e => console.log('Retry 2 failed:', e));
+            }, 300);
+            
+            setTimeout(() => {
+              console.log('Retry 3 after 500ms');
+              audio?.play().catch(e => console.log('Retry 3 failed:', e));
+            }, 500);
           });
       }
+    } else {
+      console.error('❌ Audio ref is null!');
     }
     
     onShowMessage();

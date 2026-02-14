@@ -13,7 +13,12 @@ function App() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Audio will be created via ref in DOM
+    // Create audio element properly
+    const audio = new Audio('/music.mp3');
+    audio.volume = 0.5;
+    audio.preload = 'auto';
+    audioRef.current = audio;
+    
     const timer = setTimeout(() => {
       setCurrentPage('valentine');
     }, 5000); // Increased to 5 seconds for reading time
@@ -38,19 +43,6 @@ function App() {
 
   return (
     <div className="app">
-      {/* Hidden audio element in DOM for proper autoplay unlock */}
-      <audio
-        ref={audioRef}
-        src="/music.mp3"
-        preload="auto"
-        style={{ position: 'absolute', left: '-9999px', opacity: 0 }}
-        onLoadedData={() => {
-          if (audioRef.current) {
-            audioRef.current.volume = 0.5;
-          }
-        }}
-      />
-      
       <div className="gradient-background">
         <Canvas
           camera={{ position: [0, 0, 3.5], fov: 45 }}
