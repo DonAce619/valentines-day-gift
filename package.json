@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A special Valentine's Day gift with beautiful shader backgrounds",
   "private": true,
+  "homepage": "https://donace619.github.io/valentines-day-gift/",
   "type": "module",
   "scripts": {
     "dev": "vite",
