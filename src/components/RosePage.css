@@ -1,0 +1,366 @@
+.rose-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(30, 60, 114, 0.4);
+  opacity: 1;
+  transform: scale(1);
+  transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* Sound Enable Overlay */
+.sound-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(4, 9, 39, 0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.sound-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3rem 4rem;
+  border-radius: 1.5rem;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 15px 40px rgba(255, 23, 68, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+  color: white;
+  max-width: 400px;
+  width: 90%;
+  animation: slideUp 0.6s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sound-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.sound-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(255, 182, 193, 0.5);
+}
+
+.sound-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.enable-sound-btn {
+  background: linear-gradient(135deg, #ff1744 0%, #ff6b6b 50%, #ff1744 100%);
+  color: white;
+  border: none;
+  padding: 1.2rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(255, 23, 68, 0.4);
+  font-family: 'Poppins', sans-serif;
+}
+
+.enable-sound-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 30px rgba(255, 23, 68, 0.5);
+  background: linear-gradient(135deg, #d50000 0%, #ff1744 50%, #d50000 100%);
+}
+
+.enable-sound-btn span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Rose Header */
+.rose-header {
+  position: absolute;
+  top: 8%;
+  text-align: center;
+  z-index: 3;
+}
+
+.rose-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2rem;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.4), 0 0 20px rgba(255, 182, 193, 0.6);
+  opacity: 0;
+  transform: translateY(-30px);
+  transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 0.5rem;
+}
+
+.rose-title.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.rose-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-style: italic;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
+}
+
+.rose-subtitle.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.rose-container {
+  text-align: center;
+  z-index: 2;
+  position: relative;
+}
+
+.rose-wrapper {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  opacity: 0;
+  transform: scale(0.5) rotate(-10deg);
+  transition: all 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.rose-wrapper.show {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+.rose-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(255, 23, 68, 0.5) 0%, rgba(255, 107, 107, 0.2) 40%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0;
+  transition: all 0.3s ease;
+  animation: glowPulse 2.5s ease-in-out infinite;
+}
+
+.rose-wrapper:hover .rose-glow {
+  opacity: 1;
+}
+
+.rose-wrapper:hover {
+  transform: scale(1.05) rotate(2deg);
+}
+
+@keyframes glowPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+  50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+}
+
+/* Sparkles around rose */
+.rose-sparkles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  font-size: 1.5rem;
+  opacity: 0;
+  animation: sparkleFloat 2s ease-in-out infinite;
+}
+
+.s1 { top: -20px; left: 20%; animation-delay: 0s; }
+.s2 { top: 10%; right: -10px; animation-delay: 0.3s; }
+.s3 { bottom: 20%; right: 5%; animation-delay: 0.6s; }
+.s4 { bottom: -10px; left: 40%; animation-delay: 0.9s; }
+.s5 { top: 30%; left: -15px; animation-delay: 1.2s; }
+.s6 { top: 60%; right: -5px; animation-delay: 1.5s; }
+
+.rose-wrapper.show .sparkle {
+  opacity: 1;
+}
+
+@keyframes sparkleFloat {
+  0%, 100% { transform: scale(0.8) rotate(0deg); opacity: 0.6; }
+  50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+}
+
+.rose {
+  width: 320px;
+  height: 320px;
+  filter: 
+    drop-shadow(0 15px 35px rgba(0,0,0,0.4))
+    drop-shadow(0 0 30px rgba(255, 23, 68, 0.4));
+  animation: roseFloat 4s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.rose-wrapper:hover .rose {
+  filter: 
+    drop-shadow(0 20px 45px rgba(0,0,0,0.5))
+    drop-shadow(0 0 40px rgba(255, 23, 68, 0.6));
+  transform: rotate(5deg);
+}
+
+.rose-petals {
+  animation: petalSway 5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes roseFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-8px) rotate(1deg); }
+  50% { transform: translateY(-15px) rotate(0deg); }
+  75% { transform: translateY(-8px) rotate(-1deg); }
+}
+
+@keyframes petalSway {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(3deg) scale(1.02); }
+  75% { transform: rotate(-3deg) scale(1.02); }
+}
+
+.rose-hint {
+  color: white;
+  font-size: 1.1rem;
+  margin-top: 2.5rem;
+  opacity: 0;
+  font-weight: 400;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  transition: all 1s ease 1s;
+}
+
+.rose-hint.show {
+  opacity: 0.95;
+  animation: fadeInOut 2.5s ease-in-out infinite;
+}
+
+.hint-icon {
+  font-size: 1.3rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* Rose Particles */
+.rose-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.rose-particle {
+  position: absolute;
+  font-size: 1.5rem;
+  opacity: 0.9;
+  animation: roseParticleFloat 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(255, 182, 193, 0.8));
+  bottom: 0;
+}
+
+@keyframes roseParticleFloat {
+  0% {
+    transform: translateY(100vh) rotate(0deg) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+    transform: translateY(80vh) rotate(45deg) scale(1);
+  }
+  90% {
+    opacity: 0.8;
+    transform: translateY(-20px) rotate(315deg) scale(1);
+  }
+  100% {
+    transform: translateY(-50px) rotate(360deg) scale(0);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .rose {
+    width: 250px;
+    height: 250px;
+  }
+  
+  .rose-glow {
+    width: 350px;
+    height: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rose {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .rose-glow {
+    width: 300px;
+    height: 300px;
+  }
+}

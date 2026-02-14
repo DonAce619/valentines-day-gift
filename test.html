@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Valentine's Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            text-align: center;
+            color: white;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: heartbeat 2s ease-in-out infinite;
+        }
+        
+        button {
+            background: #ff1744;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: scale(1.1);
+            background: #ff6b6b;
+        }
+        
+        .rose {
+            display: none;
+            margin: 2rem auto;
+            font-size: 5rem;
+            animation: rotate 3s linear infinite;
+        }
+        
+        .message {
+            display: none;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+            margin: 2rem auto;
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hi My Love 💕</h1>
+        <p>I have something special for you...</p>
+        <button onclick="showRose()">Click Me</button>
+        
+        <div id="rose" class="rose">🌹</div>
+        
+        <div id="message" class="message">
+            <h2>My Dearest Love</h2>
+            <p>Every moment with you feels like a beautiful dream come true.</p>
+            <p>You are the sunshine that brightens my darkest days,</p>
+            <p>the melody that makes my heart sing,</p>
+            <p>and the love that makes my life complete.</p>
+            <p>I love you more than words can express ❤️</p>
+        </div>
+    </div>
+    
+    <script>
+        function showRose() {
+            document.getElementById('rose').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('message').style.display = 'block';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
