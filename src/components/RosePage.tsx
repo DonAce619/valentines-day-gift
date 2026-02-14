@@ -16,23 +16,6 @@ export default function RosePage({ onShowMessage, audioRef }: RosePageProps) {
     const roseTimer = setTimeout(() => setShowRose(true), 500);
     const textTimer = setTimeout(() => setShowText(true), 2000);
 
-    // Ensure audio is loaded and ready
-    const audio = audioRef.current;
-    if (audio) {
-      console.log('RosePage mounted, checking audio state:', {
-        readyState: audio.readyState,
-        src: audio.src,
-        paused: audio.paused
-      });
-      
-      // If audio is not loaded, set up event listeners
-      if (audio.readyState < 4) {
-        audio.addEventListener('canplaythrough', () => {
-          console.log('✅ Audio fully loaded and ready to play');
-        }, { once: true });
-      }
-    }
-
     const particleTypes = [
       { emoji: '🌹', color: '#ff66b2' },
       { emoji: '🌸', color: '#ffb3d9' },
@@ -43,11 +26,12 @@ export default function RosePage({ onShowMessage, audioRef }: RosePageProps) {
       { emoji: '🌺', color: '#ff69b4' }
     ];
     
-    const newParticles = [...Array(20)].map((_, i) => ({
+    const newParticles = [...Array(6)].map((_, i) => ({
       id: i,
-      ...particleTypes[i % particleTypes.length],
-      delay: i * 0.4 + 3,
-      left: 5 + (i * 5),
+      emoji: particleTypes[i].emoji,
+      color: particleTypes[i].color,
+      delay: Math.random() * 2,
+      left: 20 + Math.random() * 60
     }));
     
     setParticles(newParticles);
@@ -59,24 +43,36 @@ export default function RosePage({ onShowMessage, audioRef }: RosePageProps) {
   }, []);
 
   const handleRoseClick = useCallback(() => {
-    console.log('Rose clicked - attempting to play audio');
+    console.log('🌹 Rose clicked - playing audio');
     
-    // Play audio immediately
     const audio = audioRef.current;
     if (audio) {
-      console.log('Audio ref found:', audio);
-      console.log('Audio readyState:', audio.readyState);
-      console.log('Audio src:', audio.src);
+      // Reset and play immediately
+      audio.currentTime = 0;
       
-      // Ensure audio is loaded
-      if (audio.readyState < 4) {
-        console.log('Audio not fully loaded, waiting...');
-        audio.addEventListener('canplaythrough', () => {
-          console.log('Audio can play through, attempting play');
-          attemptAudioPlay(audio);
-        }, { once: true });
-      } else {
-        attemptAudioPlay(audio);
+      // Direct play attempt
+      const playPromise = audio.play();
+      
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            console.log('✅ Audio playing successfully!');
+          })
+          .catch((err) => {
+            console.error('❌ Audio play failed:', err);
+            console.log('Audio details:', {
+              src: audio.src,
+              readyState: audio.readyState,
+              paused: audio.paused,
+              volume: audio.volume
+            });
+            
+            // Simple retry after short delay
+            setTimeout(() => {
+              console.log('🔄 Retrying audio play...');
+              audio.play().catch(e => console.log('❌ Retry failed:', e));
+            }, 200);
+          });
       }
     } else {
       console.error('❌ Audio ref is null!');
@@ -84,44 +80,6 @@ export default function RosePage({ onShowMessage, audioRef }: RosePageProps) {
     
     onShowMessage();
   }, [audioRef, onShowMessage]);
-
-  const attemptAudioPlay = (audio: HTMLAudioElement) => {
-    audio.currentTime = 0;
-    const playPromise = audio.play();
-    console.log('Play promise:', playPromise);
-    
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          console.log('✅ Audio playing successfully!');
-        })
-        .catch(err => {
-          console.error('❌ Audio play failed:', err);
-          console.log('Audio state:', {
-            paused: audio.paused,
-            currentTime: audio.currentTime,
-            readyState: audio.readyState,
-            src: audio.src,
-            volume: audio.volume
-          });
-          // Multiple retry attempts with different delays
-          setTimeout(() => {
-            console.log('Retry 1 after 100ms');
-            audio?.play().catch(e => console.log('Retry 1 failed:', e));
-          }, 100);
-          
-          setTimeout(() => {
-            console.log('Retry 2 after 300ms');
-            audio?.play().catch(e => console.log('Retry 2 failed:', e));
-          }, 300);
-          
-          setTimeout(() => {
-            console.log('Retry 3 after 500ms');
-            audio?.play().catch(e => console.log('Retry 3 failed:', e));
-          }, 500);
-        });
-    }
-  };
 
   return (
     <div className="rose-page">

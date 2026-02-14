@@ -13,15 +13,31 @@ function App() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Create audio element properly with correct path for GitHub Pages
-    const audio = new Audio('/valentines-day-gift/music.mp3');
+    // Create audio element with absolute path
+    const audio = new Audio();
+    audio.src = '/valentines-day-gift/music.mp3';
     audio.volume = 0.5;
     audio.preload = 'auto';
+    audio.loop = false;
+    
+    // Add comprehensive event listeners
+    audio.addEventListener('load', () => {
+      console.log('✅ Audio loaded successfully');
+    });
+    
+    audio.addEventListener('error', (e) => {
+      console.error('❌ Audio error:', e);
+    });
+    
+    audio.addEventListener('canplay', () => {
+      console.log('✅ Audio can play');
+    });
+    
     audioRef.current = audio;
     
     const timer = setTimeout(() => {
       setCurrentPage('valentine');
-    }, 5000); // Increased to 5 seconds for reading time
+    }, 5000);
     return () => clearTimeout(timer);
   }, []);
 
