@@ -7,11 +7,10 @@ export default defineConfig({
   base: '/Valentine-s-Day-Gift/',
   build: {
     outDir: 'dist',
-    assetsDir: 'assets',
     rollupOptions: {
-      output: {
-        manualChunks: undefined,
-      },
-    },
-  },
+      input: {
+        main: './index.html'
+      }
+    }
+  }
 })
