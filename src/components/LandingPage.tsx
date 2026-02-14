@@ -27,36 +27,84 @@ export default function LandingPage({ onEnter, audioRef }: LandingPageProps) {
   }, []);
 
   const unlockAndEnter = () => {
-    // Multiple audio unlock methods
+    console.log('🔓 ULTIMATE AUDIO UNLOCK - Trying all methods...');
+    
     const audio = audioRef.current;
     if (audio) {
-      console.log('🔓 Unlocking audio on landing page');
+      // METHOD 1: Direct play/pause
+      const method1 = () => {
+        console.log('🎵 Method 1: Direct play/pause');
+        return audio.play().then(() => {
+          console.log('✅ Method 1 SUCCESS!');
+          audio.pause();
+          audio.currentTime = 0;
+        });
+      };
       
-      // Method 1: Direct play/pause
-      audio.play().then(() => {
-        console.log('✅ Method 1: Audio unlocked!');
-        audio.pause();
-        audio.currentTime = 0;
-      }).catch(() => {
-        // Method 2: Create AudioContext
+      // METHOD 2: AudioContext resume
+      const method2 = () => {
+        console.log('🎵 Method 2: AudioContext resume');
         try {
-          const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-          if (audioContext.state === 'suspended') {
-            audioContext.resume().then(() => {
-              console.log('✅ Method 2: AudioContext resumed');
-              // Try playing again
-              audio.play().then(() => {
-                audio.pause();
-                audio.currentTime = 0;
-              }).catch(() => console.log('Method 2 retry failed'));
+          const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+          const audioContext = new AudioContext();
+          return audioContext.resume().then(() => {
+            console.log('✅ Method 2 SUCCESS!');
+            return audio.play().then(() => {
+              audio.pause();
+              audio.currentTime = 0;
             });
-          }
+          });
         } catch (e) {
-          console.error('AudioContext creation failed:', e);
+          console.error('Method 2 failed:', e);
+          return Promise.reject(e);
         }
-      });
+      };
+      
+      // METHOD 3: User interaction simulation
+      const method3 = () => {
+        console.log('🎵 Method 3: User interaction simulation');
+        const clickEvent = new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          view: window
+        });
+        document.dispatchEvent(clickEvent);
+        return audio.play().then(() => {
+          console.log('✅ Method 3 SUCCESS!');
+          audio.pause();
+          audio.currentTime = 0;
+        });
+      };
+      
+      // METHOD 4: Muted play then unmute
+      const method4 = () => {
+        console.log('🎵 Method 4: Muted play then unmute');
+        const originalVolume = audio.volume;
+        audio.volume = 0;
+        return audio.play().then(() => {
+          console.log('✅ Method 4 SUCCESS!');
+          audio.pause();
+          audio.currentTime = 0;
+          audio.volume = originalVolume;
+        });
+      };
+      
+      // TRY ALL METHODS IN SEQUENCE
+      method1()
+        .catch(() => method2())
+        .catch(() => method3())
+        .catch(() => method4())
+        .catch((e) => {
+          console.error('❌ ALL METHODS FAILED:', e);
+        })
+        .finally(() => {
+          console.log('🔓 Audio unlock attempt complete');
+          onEnter();
+        });
+    } else {
+      console.error('❌ Audio ref is null!');
+      onEnter();
     }
-    onEnter();
   };
 
   return (

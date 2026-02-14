@@ -43,34 +43,85 @@ export default function RosePage({ onShowMessage, audioRef }: RosePageProps) {
   }, []);
 
   const handleRoseClick = useCallback(() => {
-    console.log('🌹 Rose clicked - playing audio');
+    console.log('🌹 ULTIMATE ROSE AUDIO PLAY - All methods activated!');
     
     const audio = audioRef.current;
     if (audio) {
-      // Reset audio
+      // Reset audio completely
       audio.currentTime = 0;
+      audio.volume = 0.5;
       
-      // Aggressive retry mechanism
-      const attemptPlay = (attempt: number) => {
-        console.log(`🎵 Attempt ${attempt} to play audio`);
+      // ULTIMATE PLAY FUNCTION - Try everything
+      const ultimatePlay = async () => {
+        console.log('🎵 Starting ultimate audio play sequence...');
         
-        audio.play().then(() => {
-          console.log('✅ Audio playing successfully!');
-        }).catch((err) => {
-          console.error(`❌ Attempt ${attempt} failed:`, err);
+        // STRATEGY 1: Direct play
+        try {
+          console.log('🎵 Strategy 1: Direct play');
+          await audio.play();
+          console.log('✅ SUCCESS! Audio playing!');
+          return;
+        } catch (e1) {
+          console.error('Strategy 1 failed:', e1);
           
-          if (attempt < 5) {
-            // Try different delays
-            const delays = [100, 300, 500, 1000, 2000];
-            setTimeout(() => attemptPlay(attempt + 1), delays[attempt - 1]);
-          } else {
-            console.error('❌ All attempts failed - audio not playing');
+          // STRATEGY 2: Load and play
+          try {
+            console.log('🎵 Strategy 2: Load and play');
+            audio.load();
+            await new Promise(resolve => setTimeout(resolve, 100));
+            await audio.play();
+            console.log('✅ SUCCESS! Audio playing!');
+            return;
+          } catch (e2) {
+            console.error('Strategy 2 failed:', e2);
+            
+            // STRATEGY 3: Muted then unmute
+            try {
+              console.log('🎵 Strategy 3: Muted then unmute');
+              audio.volume = 0;
+              await audio.play();
+              audio.volume = 0.5;
+              console.log('✅ SUCCESS! Audio playing!');
+              return;
+            } catch (e3) {
+              console.error('Strategy 3 failed:', e3);
+              
+              // STRATEGY 4: Create new audio element
+              try {
+                console.log('🎵 Strategy 4: New audio element');
+                const newAudio = new Audio('/valentines-day-gift/music.mp3');
+                newAudio.volume = 0.5;
+                await newAudio.play();
+                console.log('✅ SUCCESS! New audio playing!');
+                return;
+              } catch (e4) {
+                console.error('Strategy 4 failed:', e4);
+                
+                // STRATEGY 5: Force interaction
+                try {
+                  console.log('🎵 Strategy 5: Force interaction');
+                  const button = document.createElement('button');
+                  button.textContent = 'Play Audio';
+                  button.onclick = () => audio.play();
+                  button.style.position = 'absolute';
+                  button.style.left = '-9999px';
+                  document.body.appendChild(button);
+                  button.click();
+                  document.body.removeChild(button);
+                  console.log('✅ SUCCESS! Forced play!');
+                  return;
+                } catch (e5) {
+                  console.error('Strategy 5 failed:', e5);
+                  console.error('❌ ALL STRATEGIES FAILED - Audio will not play');
+                }
+              }
+            }
           }
-        });
+        }
       };
       
-      // Start attempts
-      attemptPlay(1);
+      // Execute ultimate play
+      ultimatePlay();
     } else {
       console.error('❌ Audio ref is null!');
     }
