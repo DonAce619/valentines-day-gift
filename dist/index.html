@@ -4,54 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Valentine's Day Gift</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-          sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      #root {
-        width: 100%;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, #040927 0%, #19376d 50%, #040927 100%);
-      }
-      .loading {
-        color: white;
-        font-size: 1.2rem;
-        text-align: center;
-      }
-      .success {
-        color: #ff69b4;
-        font-size: 2rem;
-        font-weight: bold;
-        text-align: center;
-        animation: pulse 2s ease-in-out infinite;
-      }
-      @keyframes pulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.1); }
-        100% { transform: scale(1); }
-      }
-    </style>
+    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+    <script type="module" crossorigin src="./assets/index-CdBAjeau.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CE_UEP1U.css">
   </head>
   <body>
-    <div id="root">
-      <div class="loading">Loading Valentine's Day Gift...</div>
-    </div>
+    <div id="root"></div>
     <script>
-      // Simple test to ensure JavaScript is working
-      console.log('Page loaded successfully');
-      document.addEventListener('DOMContentLoaded', function() {
+      // Fallback if React doesn't load
+      window.addEventListener('load', function() {
         setTimeout(function() {
-          document.querySelector('.loading').innerHTML = '<div class="success">💕 Valentine\'s Day Gift Ready! 💕</div>';
-        }, 2000);
+          const root = document.getElementById('root');
+          if (root && root.innerHTML === '') {
+            root.innerHTML = `
+              <div style="color: white; text-align: center; font-family: Arial; padding: 50px;">
+                <h1>💕 Valentine's Day Gift 💕</h1>
+                <p>Your romantic website is loading...</p>
+                <p>If this message persists, please check the browser console (F12)</p>
+                <p style="margin-top: 20px;">
+                  <a href="./assets/index-CdBAjeau.js" style="color: #ff69b4; text-decoration: none;">🔧 Debug Info</a> | 
+                  <a href="./assets/index-CE_UEP1U.css" style="color: #ff69b4; text-decoration: none;">🎨 CSS File</a>
+                </p>
+              </div>
+            `;
+          }
+        }, 3000);
       });
     </script>
   </body>
